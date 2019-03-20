@@ -33,6 +33,7 @@ int main (void)
 	allumerPeriph(Timer1) ;
 	timerModeDelai(Timer1,HDIV2,1543000UL,REPETITIF,INC);
 	lancerTimer(Timer1) ;
+	//Déclaration des variables
 	float valTension = 0 ;
 	float valDegres =0 ;
 	float valTensionPince = 0 ;
@@ -45,58 +46,72 @@ int main (void)
 	while(true)
 	{
 			
-			if(testerEtatTimer(Timer1,LIMITE)){
-			choisirEntreeConvAN(6) ;
-			while(!testerEtatConvAN(FIN_CONV6))
-			{
-			}
-			//positionnerMoteur(PINCE,85) ;
-			valTensionPince = lireTensionConvAN(6);
-			//printf("Valeur de la tension pince%f\n ",valTensionPince) ;
-			valDegresPince = (valTensionPince*51.51)-85 ;
-			positionnerMoteur(PINCE,valDegresPince) ;}
+			if(testerEtatTimer(Timer1,LIMITE))
+				{
+					choisirEntreeConvAN(6) ;
+					while(!testerEtatConvAN(FIN_CONV6))
+						{
+						}
+					//positionnerMoteur(PINCE,85) ;
+					valTensionPince = lireTensionConvAN(6);
+					printf("Valeur de la tension pince%f\n ",valTensionPince) ;
+					//Conversion de la tension en un angle (angle = tension*51.51-85 )
+					valDegresPince = (valTensionPince*51.51)-85 ;
+					positionnerMoteur(PINCE,valDegresPince) ;
+				}
 			
 			
-			
+			//Controle du COUDE du robot
 			choisirEntreeConvAN(5) ;
 			while(!testerEtatConvAN(FIN_CONV5))
 					{
 					}
-							//positionnerMoteur(PINCE,85) ;
 			valTension = lireTensionConvAN(5);
-			printf("Valeur de la tension dans le du coude %f \n ",valTension) ;
-			if (valTension<1.55|| valTension>1.80){
-				
-				if(testerEtatTimer(Timer1,LIMITE)){
-			valDegres = ((valTension-1.85)*0.825)+valDegres ;
-			positionnerMoteur(COUDE,valDegres) ;}}
+			//printf("Valeur de la tension dans le du coude %f \n ",valTension) ;
+			if (valTension<1.55|| valTension>1.80)
+				{
+					if(testerEtatTimer(Timer1,LIMITE))
+						{
+							//Convertir une tension en degrès ( degres = (tension-1.85)*0.825)
+							valDegres = ((valTension-1.85)*0.825)+valDegres ;
+							positionnerMoteur(COUDE,valDegres) ;
+						}
+				}
 			
 			
 			
-		
+				//Controle du POIGNET du robot
 				choisirEntreeConvAN(2) ;
 				while(!testerEtatConvAN(FIN_CONV2))
-				{
-				}
+					{
+					}
 				valTensionPoignet = lireTensionConvAN(2);
 				//printf("Valeur de la tension dans le if %f \n ",valTensionPoignet) ;
-				if (valTensionPoignet<1.55 || valTensionPoignet>1.80){
-					if(testerEtatTimer(Timer1,LIMITE)){
-					valDegresPoignet = ((valTensionPoignet-1.85)*0.825)+valDegresPoignet ;
-				positionnerMoteur(POIGNET,valDegresPoignet) ;}}
+				if (valTensionPoignet<1.55 || valTensionPoignet>1.80)
+					{
+						if(testerEtatTimer(Timer1,LIMITE))
+							{
+								valDegresPoignet = ((valTensionPoignet-1.85)*0.825)+valDegresPoignet ;
+								positionnerMoteur(POIGNET,valDegresPoignet) ;
+							}
+					}
 				
 				
-				
+				//Controle DE LA BASE du robot
 				choisirEntreeConvAN(4) ;
 				while(!testerEtatConvAN(FIN_CONV4))
-				{
-				}
+					{
+					}
 				valTensionBase = lireTensionConvAN(4);
 				//printf("Valeur de la tension dans le if %f \n ",valTensionBase) ;
-				if (valTensionBase<1.55 || valTensionBase>1.80){
-					if(testerEtatTimer(Timer1,LIMITE)){
-						valDegresBase = ((valTensionBase-1.85)*0.825)+valDegresBase ;
-					positionnerMoteur(BASE,valDegresBase) ;}}
+				if (valTensionBase<1.55 || valTensionBase>1.80)
+					{
+						if(testerEtatTimer(Timer1,LIMITE))
+							{
+								valDegresBase = ((valTensionBase-1.85)*0.825)+valDegresBase ;
+								positionnerMoteur(BASE,valDegresBase) ;
+							}
+					}
 			
 
 	
@@ -107,6 +122,7 @@ int main (void)
 	}
 	
 }
+//Initialisation du robot
 void initialiserRobot()
 {
 	initRobot() ;
